@@ -12,6 +12,17 @@ import { ReceiptModal } from './components/ReceiptModal';
 import { ReportsView } from './components/ReportsView'; 
 import { API_URL } from './config/api';
 
+const getSearchResults = (data: unknown): Product[] => {
+  if (Array.isArray(data)) return data;
+  if (!data || typeof data !== 'object') return [];
+
+  const payload = data as { results?: unknown; Results?: unknown };
+  if (Array.isArray(payload.results)) return payload.results;
+  if (Array.isArray(payload.Results)) return payload.Results;
+
+  return [];
+};
+
 function App() {
   const { t } = useTranslation();
   const { cart, addToCart, removeFromCart, cartTotal, clearCart, updateSettings } = useStore();
@@ -51,9 +62,12 @@ function App() {
     if (!searchQuery) return;
     setIsLoading(true);
     try {
-      const response = await axios.get(`${API_URL}/ai/search?query=${searchQuery}`);
-      setAiResults(response.data.results);
+      const response = await axios.get(`${API_URL}/ai/search`, {
+        params: { query: searchQuery }
+      });
+      setAiResults(getSearchResults(response.data));
     } catch (error) {
+      setAiResults([]);
       alert(t('error_search'));
     } finally {
       setIsLoading(false);
