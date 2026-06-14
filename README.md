@@ -1,64 +1,56 @@
-# SmartMarket
+# 🛒 Smart Market
 
-SmartMarket has two deployable parts:
+Smart Market is a full-stack SaaS platform developed to optimize modern market operations, manage smart product tracking, and deliver AI-powered business analytics.
 
-- `smartmarket-client`: Vite React frontend. Deploy this to Vercel.
-- `SmartMarket.API`: ASP.NET Core API. Deploy this to Google Cloud Run with Docker.
+You can access the live application here: **[Smart Market Live](https://smart-market-git-main-yagizaydinlis-projects.vercel.app/)**
 
-## Local secrets
+---
 
-Real local values are stored in `SECRETS.local.md`. This file is ignored by Git.
+## 🚀 Key Features
 
-Before publishing this repository, rotate any keys that were previously stored in source files.
+* **Smart POS & Sales Management:** Fast, dynamic, and flexible checkout and retail operations management.
+* **AI-Powered Search & Analytics:** Integrated with Groq Cloud AI to provide intelligent product search, stock predictions, and advanced data analytics.
+* **Advanced Inventory & Stock Tracking:** Categorization, automated critical stock level alerts, and detailed product lifecycle management.
+* **Dynamic Configuration:** Highly flexible infrastructure that can be customized on-the-fly based on specific store requirements.
 
-## Frontend deploy on Vercel
+---
 
-Use these Vercel settings:
+## 🛠️ Tech Stack
 
-- Root Directory: `smartmarket-client`
-- Build Command: `npm run build`
-- Output Directory: `dist`
+### Frontend
+* **Framework:** Next.js (React)
+* **Hosting/Deployment:** Vercel
 
-Add this environment variable in Vercel:
+### Backend
+* **Framework:** .NET 8 / 9 Web API (Minimal APIs)
+* **Hosting/Deployment:** Railway
 
+### Database & Infrastructure
+* **Database:** PostgreSQL (Hosted on Supabase, utilizing high-performance `Npgsql Connection Pooling`)
+* **AI Engine:** Groq Cloud AI Service
+
+---
+
+## ⚙️ Installation and Local Setup
+
+Follow these steps to clone the project and run it on your local environment.
+
+### 1. Prerequisites
+* .NET SDK (Version 8.0 or higher)
+* Node.js (Version 18 or higher)
+* A Supabase project or a local PostgreSQL instance
+
+### 2. Backend Setup
 ```bash
-VITE_API_URL=https://your-api-host.example.com/api
-```
+# Clone the repository
+git clone [https://github.com/your-username/smart-market.git](https://github.com/your-username/smart-market.git)
+cd smart-market/backend
 
-For local frontend development, copy `smartmarket-client/.env.example` to `smartmarket-client/.env` and update `VITE_API_URL` if needed.
+# Restore dependencies
+dotnet restore
 
-## API environment variables
+# Configure your database connection string in appsettings.json or via Environment Variables:
+# "ConnectionStrings:DefaultConnection": "Host=...;Port=6543;Database=postgres;Username=...;Password=...;"
 
-Set these variables on the API host. For Google Cloud Run, add them during service creation or under Service > Edit & deploy new revision > Variables & Secrets.
-
-```bash
-ConnectionStrings__DefaultConnection=your-postgres-connection-string
-GroqApiKey=your-groq-api-key
-```
-
-The API intentionally does not store production secrets in `appsettings.json`.
-
-## API deploy on Google Cloud Run
-
-Use `SmartMarket.API/Dockerfile` as the container definition.
-
-One simple path is:
-
-1. Open Google Cloud Console.
-2. Create or select a project.
-3. Enable billing, Cloud Run, Cloud Build, and Artifact Registry.
-4. Go to Cloud Run > Create Service.
-5. Choose source from GitHub or deploy from a container built from `SmartMarket.API`.
-6. Set container port to `8080`.
-7. Add environment variables:
-
-```bash
-ConnectionStrings__DefaultConnection=your-postgres-connection-string
-GroqApiKey=your-groq-api-key
-```
-
-After Cloud Run gives you a URL, set this in Vercel:
-
-```bash
-VITE_API_URL=https://your-cloud-run-url.run.app/api
-```
+# Run the application
+dotnet run
