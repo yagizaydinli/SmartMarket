@@ -8,11 +8,13 @@ var builder = WebApplication.CreateBuilder(args);
 // CORS politikalarını ekleyelim (Frontend'in API'ye erişebilmesi için)
 builder.Services.AddCors(options =>
 {
-    options.AddDefaultPolicy(policy =>
+    ptions.AddDefaultPolicy(policy =>
     {
-        policy.AllowAnyOrigin()
-              .AllowAnyMethod()
-              .AllowAnyHeader();
+        policy.WithOrigins(
+                "https://smart-market-git-main-yagizaydinlis-projects.vercel.app"
+              ) 
+              .AllowAnyMethod()  // GET, POST, PUT, DELETE vb. tüm metotlara izin ver
+              .AllowAnyHeader(); // Content-Type, Authorization vb. tüm başlıklara izin ver
     });
 });
 
